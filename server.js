@@ -89,17 +89,19 @@ async function getTeamWorkload(token) {
     const base = SF_BASE_URL + "/services/data/v59.0";
 
     const sfIds = Object.values(USER_MAP).map(u => `'${u.sfId}'`).join(",");
-    const query = `SELECT OwnerId, COUNT(Id) leadCount FROM Lead WHERE OwnerId IN (${sfIds}) AND IsConverted = false GROUP BY OwnerId`;
+    
+    // Get all open leads for team members
+    const query = `SELECT OwnerId FROM Lead WHERE OwnerId IN (${sfIds}) AND IsConverted = false`;
 
     const res = await axios.get(
         `${base}/query?q=${encodeURIComponent(query)}`,
         { headers }
     );
 
-    // Build workload map
+    // Count manually
     const workloadMap = {};
     for (const r of res.data.records) {
-        workloadMap[r.OwnerId] = r.leadCount;
+        workloadMap[r.OwnerId] = (workloadMap[r.OwnerId] || 0) + 1;
     }
 
     // Build full team list
@@ -110,7 +112,6 @@ async function getTeamWorkload(token) {
         leadCount: workloadMap[user.sfId] || 0,
     }));
 
-    // Sort by lead count
     return team.sort((a, b) => a.leadCount - b.leadCount);
 }
 
