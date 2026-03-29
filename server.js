@@ -192,20 +192,24 @@ async function sendDM(slackUserId, message, botToken) {
 }
 
 function buildWorkloadMessage(team) {
-    const lines = team.map(member => {
+    const fields = team.map(member => {
         const emoji = getStatusEmoji(member.leadCount);
-        const bar = getProgressBar(member.leadCount);
         const label = getStatusLabel(member.leadCount);
-        return `${emoji} *${member.name}*\n   ${bar} ${member.leadCount}/10 leads — _${label}_`;
-    }).join("\n\n");
+        return {
+            title: `${emoji} ${member.name}`,
+            value: `*${member.leadCount}/10 leads* — _${label}_`,
+            short: true
+        };
+    });
 
     return {
         response_type: "in_channel",
-        text: "📊 *Team Lead Workload*",
+        text: "📊 *Team Lead Workload Dashboard*",
         attachments: [{
             color: "#36a64f",
-            text: lines,
-            footer: "🟢 Available (0-4)  |  🟡 Busy (5-8)  |  🔴 Overloaded (9-10)"
+            fields: fields,
+            footer: "🟢 Available (0-4)  |  🟡 Busy (5-8)  |  🔴 Overloaded (9-10)",
+            ts: Math.floor(Date.now() / 1000)
         }]
     };
 }
