@@ -50,7 +50,7 @@ const USER_MAP = {
     "U0AN8EJNMRD": { sfId: "005Hu00000UxCrxIAF", name: "Harshitha C",      email: "harshita.c@kasmodigital.com"   },
     "U0ANJBVH1B6": { sfId: "005Hu00000UxFpvIAF", name: "Abhishek MV",      email: "abhishek.mv@kasmodigital.com"  },
     "U0ANUEG6BQR": { sfId: "005Hu00000UxFq0IAF", name: "Chennakeshav V",   email: "channakeshava.v@kasmodigital.com" },
-    "U0AJC4PBHL6": { sfId: "005Hu00000SlmzPIAR ", name: "Yashaswini BR",   email: "yashaswini.br@kasmodigital.com" }
+    // "U0AJC4PBHL6": { sfId: "005Hu00000SlmzPIAR ", name: "Yashaswini BR",   email: "yashaswini.br@kasmodigital.com" }
 };
 
 // Reverse map: SF ID → Slack ID
