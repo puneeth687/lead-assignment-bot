@@ -325,11 +325,15 @@ app.post("/slack/lead-capacity", async (req, res) => {
         const team = await getTeamWorkload(token);
         await sendToSlack(req.body.response_url, buildWorkloadMessage(team));
     } catch (err) {
-        console.error("Workload error:", err.message);
-        try { await sendToSlack(req.body.response_url, { response_type: "ephemeral", text: `:x: Error: ${err.message}` }); } catch(e) {}
+        console.error("Workload error FULL:", JSON.stringify(err.response?.data), err.message);
+        try { 
+            await sendToSlack(req.body.response_url, { 
+                response_type: "ephemeral", 
+                text: `:x: Error: ${JSON.stringify(err.response?.data) || err.message}` 
+            }); 
+        } catch(e) {}
     }
 });
-
 // /assign-lead — assign lead to user
 app.post("/slack/assign-lead", async (req, res) => {
     const { text, response_url } = req.body;
